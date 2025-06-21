@@ -1,13 +1,25 @@
-// Model schema for users and links (optional if integrating DB)
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
 model User {
-  id    String   @id @default(cuid())
-  email String   @unique
-  links Link[]
+  id       String   @id @default(cuid())
+  email    String   @unique
+  name     String?
+  image    String?
+  links    Link[]
 }
 
 model Link {
-  id     String @id @default(cuid())
-  url    String
-  userId String
-  user   User   @relation(fields: [userId], references: [id])
+  id       String   @id @default(cuid())
+  url      String
+  title    String?
+  user     User     @relation(fields: [userId], references: [id])
+  userId   String
+  createdAt DateTime @default(now())
 }
